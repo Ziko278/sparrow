@@ -1,0 +1,55 @@
+{% extends 'admin_layout.html' %}
+{% block 'main_content' %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">ACADEMIC SESSION REGISTRATION</h4>
+        <form class="form-sample">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Slash Format</label>
+                <div class="col-sm-9">
+                  {{form.slash_format}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Dash Status</label>
+                <div class="col-sm-9">
+                  {{form.dash_format}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-9">
+                  {{form.status}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                  <button style="width:150px;margin:10px" class="btn btn-primary btn-rounded">Register Session</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+{%endblock %}
