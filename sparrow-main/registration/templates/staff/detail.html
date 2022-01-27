@@ -1,0 +1,212 @@
+{% extends 'school_admin_layout.html' %}
+{% block 'main_content' %}
+<div class="page-header">
+    <h3 class="page-title"> STAFF INFORMATION: <i>{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }}</i> </h3>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'school_admin_dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'school_admin_staff_create' %}">Add Staff</a></li>
+        </ol>
+    </nav>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">ACTIONS:
+                <a href="{% url 'school_admin_staff_edit' staff.id %}" class="btn btn-primary">EDIT STAFF</a>
+                <a href="{% url 'school_admin_staff_delete' staff.id %}" class="btn btn-danger">DELETE STAFF</a>
+            </h4>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="card-description"> PERSONAL INFORMATION </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <image src="/media/{{ staff.image }}" style="width:100px;height:100px;border-radius:5px;" />
+                            <p style="margin-top:5px;">Status: <span class="text-center {% if staff.status|lower == 'active' %} text-success {% else %} text-danger {% endif %} "> {{staff.status|upper}} </span> </p>
+                        </div>
+                        <div class="col-md-8">
+                            <p>{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }}</p>
+                            <p>{% if staff.registration_number %} {{staff.registration_number|upper}} {% else %} NO REGISTRATION NUMBER {% endif %}</p>
+                            <p>{% if staff.mobile %} {{staff.mobile|title}} {% else %} Mobile Not Provided {% endif %}</p>
+                            <p>{% if staff.email %} {{staff.email|title}} {% else %} Email Not Provided {% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="card-description"> ACADEMIC INFORMATION </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{% if staff.section == 'a' %} Academic Staff {% elif staff.section == 'n' %} Non Academic Staff {% endif %}</p>
+                            <p> {{staff.position|title}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="card-description"> OTHER INFORMATION </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Nationality : <i><b>{% if staff.nationality %} {{ staff.nationality }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>State of Origin : <i><b>{% if staff.state_of_origin %} {{ staff.state_of_origin }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>L G A : <i><b>{% if staff.lga %} {{ staff.lga }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Address : <i><b>{% if staff.residential_address %} {{ staff.residential_address }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Religion : <i><b>{% if staff.religion %} {{ staff.religion }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Date of Birth : <i><b>{% if staff.date_of_birth %} {{ staff.date_of_birth }} {% else %} Not Provided {% endif %}</b></i></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="card-description"> ACCOUNT INFORMATION </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Salary : <i><b>{% if staff.salary %} {{ staff.salary }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Bank Name : <i><b>{% if staff.bank_name %} {{ staff.bank_name }} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Account Number : <i><b>{% if staff.account_number %} {{ staff.account_number}} {% else %} Not Provided {% endif %}</b></i></p>
+                            <p>Account Name : <i><b>{% if staff.account_name %} {{ staff.account_name }} {% else %} Not Provided {% endif %}</b></i></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if teacher_subject_list %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-center">List of Subjects handled by {{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }}</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> S/N </th>
+                            <th> Subject </th>
+                            <th class="text-center"> Subject Code </th>
+                            <th>Compulsory</th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for subject in teacher_subject_list %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ subject.name|upper }} </td>
+                            <td class="text-center"> {{ subject.code|upper }} </td>
+                            <td> {% if subject.is_compulsory %} YES {% else %} NO {% endif %} </td>
+                            <td> <a class="btn btn-primary" href="{% url 'school_admin_subject_detail' subject.id %}">View</a> </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-center">{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }} is currently not handling any subject</h4>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if not class_form_teacher and not class_assistant_form_teacher %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-center">{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }} is currently neither a form teacher nor assistant form teacher of any class</h4>
+        </div>
+    </div>
+</div>
+{% else %}
+{% if class_form_teacher %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-center">{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }} is the form teacher of the following classes</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> S/N </th>
+                            <th> Class Name </th>
+                            <th class="text-center"> Class Code </th>
+                            <th>Number of Students</th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for class in class_form_teacher %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ class.name|upper }} </td>
+                            <td class="text-center"> {{ class.code|upper }} </td>
+                            <td class="text-center"> 43 </td>
+                            <td> <a class="btn btn-primary" href="{% url 'school_admin_class_detail' class.id %}">View</a> </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if class_assistant_form_teacher %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title text-center">{{ staff.title|title }} {{ staff.surname|title }} {% if staff.middle_name %} {{ staff.middle_name|title }} {% endif %} {{ staff.last_name|title }} is the assistant form teacher of the following classes</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> S/N </th>
+                            <th> Class Name </th>
+                            <th class="text-center"> Class Code </th>
+                            <th>Number of Students</th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for class in class_assistant_form_teacher %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ class.name|upper }} </td>
+                            <td class="text-center"> {{ class.code|upper }} </td>
+                            <td class="text-center"> 43 </td>
+                            <td> <a class="btn btn-primary" href="{% url 'school_admin_class_detail' class.id %}">View</a> </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endif %}
+
+{% endblock %}

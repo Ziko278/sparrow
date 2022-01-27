@@ -1,0 +1,77 @@
+{% extends 'school_admin_layout.html' %}
+{% block 'main_content' %}
+
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+          <h4 class="card-title">RESULT UPLOAD: <i> {{ subject|upper }} FOR {{ class|upper }} ( {{ academic_setting.session }} session, {{ academic_setting.term|upper }} )</i></h4>
+          <form method="POST" class="form-sample" enctype="multipart/form-data">
+          {% csrf_token %}
+              <input type="hidden" name="school" value="{{user_school.id}}" />
+              <input type="hidden" name="subject" value="{{subject.id}}" />
+              <input type="hidden" name="student_class" value="{{class.id}}" />
+              <input type="hidden" name="session" value="{{academic_setting.session}}" />
+              <input type="hidden" name="term" value="{{academic_setting.term}}" />
+          {% if full_list %}
+
+          <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> Image  </th>
+                            <th> Fullname </th>
+                            <th class="text-center"> Registration No </th>
+                            <th> Assignment</th>
+                            <th> 1st CA </th>
+                            <th> 2nd CA </th>
+                            <th> 3rd CA </th>
+                            <th> Exam  </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for key, value in full_list.items %}
+                    <input type="hidden" name="students[]" value="{{value.student.id}}" />
+                        <tr>
+                            <td> <image src="/media/{{ value.student.image }}" /> </td>
+                            <td> {{ value.student.surname|title }} {% if value.student.middle_name %} {{ value.student.middle_name|title }} {% endif %} {{ value.student.last_name|title }} </td>
+                            <td class="text-center"> {% if value.student.registration_number %} {{ value.student.registration_number }} {% endif %} </td>
+                            <td> <input type="number" {% if value.result.assignment %} value="{{ value.result.assignment }}" {% endif %} step=".01" name="assignments[]" class="form-control"> </td>
+                            <td> <input type="number" {% if value.result.first_test %} value="{{ value.result.first_test}}" {% endif %} step=".01" name="first_tests[]" class="form-control"> </td>
+                            <td> <input type="number" {% if value.result.second_test %} value="{{ value.result.second_test}}" {% endif %}  step=".01" name="second_tests[]" class="form-control"> </td>
+                            <td> <input type="number" {% if value.result.third_test %} value="{{ value.result.third_test}}" {% endif %}  step=".01" name="third_tests[]" class="form-control"> </td>
+                            <td> <input type="number" {% if value.result.exam %} value="{{ value.result.exam}}" {% endif %}  step=".01" name="exams[]" class="form-control"> </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+          </div>
+          {% else %}
+            <br /><br />
+            <h3 class="text-center">THERE IS CURRENTLY NO STUDENT IN THIS CLASS</h3>
+          {% endif %}
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <div class="col-sm-12" style="float:left">
+                  {% if full_list %} <button style="width:150px;margin:10px" class="btn btn-primary btn-rounded">Upload Result</button> {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock %}

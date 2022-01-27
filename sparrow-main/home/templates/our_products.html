@@ -1,0 +1,70 @@
+{% extends 'website_layout.html' %}
+{% load static %}
+{% block extra_style %}
+      <!-- ======= EXTRA STYLE GOES IN HERE ======= -->
+  <link rel="stylesheet" href="{% static 'home/styles/extra.css' %}">
+{% endblock %}
+{% block main_content %}
+{% load static %}
+<!-- ======= About Us Section ======= -->
+<section id="about" class="about">
+  <div class="section-title">
+     <h2 class="text-center">OUR TECH PRODUCTS</h2>
+   </div>
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-6 video-box">
+        <img src="{% static 'home/images/about.jpg' %}" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
+        <div class="section-title">
+          <h2>SCHOOL MANAGEMENT SYSTEM</h2>
+          <p>Our School management system also known as {% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %} is an easy to use, yet robust software for swift management of school activities</p><br />
+          <p>The software is easy to use, user friendly and fast. The ease of dataflow makes it very self explanatory. Data saving and retrieval is seamless with the software.</p> <br />
+          <p>Some of the modules of the software include registration, result, attendance, expense tracking, online classes and exams, to name a few.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- End About Us Section -->
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-6 video-box">
+        <img src="{% static 'home/images/about.jpg' %}" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
+        <div class="section-title">
+          <h2>INVENTORY MANAGEMENT SYSTEM</h2>
+          <p>Our Inventory Management System also known as SmartBiz is an all in one Sale management software that make the process of sale accountability to be very easy.</p><br />
+          <p>The Software keeps track of every transactions that occur in the business. From sale, to expiry of products, to return of items bought, inventory level, daily and total sale and profit records, The software enables you to become the perfect manager.</p><br />
+          <p>Records of transactions that occurred months ago can be retrieved by just a single click and gives you that feeling of absolute control over your business.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- End About Us Section -->
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-6 video-box">
+        <img src="{% static 'home/images/about.jpg' %}" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
+        <div class="section-title">
+          <h2>DISPATCH MANAGEMENT SYSTEM</h2>
+          <p>Our Dispatch Management System also known as Conveyor is an all in one Dispatch and logistics management software that make the handling of all activities in the logistics business seamlessly easy.</p><br />
+          <p>The software keeps track all activities and records such as Customer Information, Customer Orders, Order Status, Profit and Loss Statements, Expense Tracking including utility expenses, and lots more.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- End About Us Section -->
+
+
+{% endblock %}
