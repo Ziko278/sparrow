@@ -99,8 +99,6 @@ def school_update_status(request, pk):
     else:
         messages.success(request, 'This school email has already been registered, try another email')
 
-        # return render(request, 'forms/registration.html')
-
         return redirect('admin_new_school_list')
 
 
