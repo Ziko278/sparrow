@@ -1,5 +1,5 @@
 from django.urls import path
-from setting.views import SessionCreateView, SessionListView, SessionDetailView, SessionUpdateView, SessionDeleteView, \
+from .views import SessionCreateView, SessionListView, SessionDetailView, SessionUpdateView, SessionDeleteView, \
     SparrowSettingView, SchoolSettingView, SchoolAcademicSettingCreateView, SchoolAcademicSettingUpdateView, \
     SchoolAcademicSettingDetailView
 

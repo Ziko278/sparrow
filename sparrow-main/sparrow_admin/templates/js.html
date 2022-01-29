@@ -1,0 +1,16 @@
+{% load static %}
+
+    <script src="{% static 'sparrow_admin/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'sparrow_admin/scripts/jquery.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    {% block extra_script %}
+      <!-- ======= EXTRA STYLE GOES IN HERE ======= -->
+    {% endblock %}
+    <script src="{% static 'sparrow_admin/scripts/off-canvas.js' %}"></script>
+    <script src="{% static 'sparrow_admin/scripts/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'sparrow_admin/scripts/misc.js' %}"></script>
+    <script src="{% static 'sparrow_admin/scripts/settings.js' %}"></script>
+    <script src="{% static 'sparrow_admin/scripts/todolist.js' %}"></script>

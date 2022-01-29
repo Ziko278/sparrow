@@ -4,7 +4,7 @@
     <h3 class="page-title"> New Schools </h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'admin_dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 's_admin:admin_dashboard' %}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Schools</li>
         </ol>
     </nav>
@@ -34,7 +34,7 @@
                             <td> {{school.name}} </td>
                             <td>{% if school.type == 'sec' %} SECONDARY {% elif school.type == 'pri' %} PRIMARY {% else %} COMBINED {% endif %}</td>
                             <td> May 15, 2015 </td>
-                            <td> <a class="btn btn-primary" href="{% url 'admin_school_detail' school.id %}">View</a> </td>
+                            <td> <a class="btn btn-primary" href="{% url 's_admin:admin_school_detail' school.id %}">View</a> </td>
                         </tr>
                     {% endfor %}
                     </tbody>

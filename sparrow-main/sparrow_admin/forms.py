@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, TextInput
-from sparrow_admin.models import SchoolsModel
+from .models import SchoolsModel
 
 
 class SchoolsForm(ModelForm):
