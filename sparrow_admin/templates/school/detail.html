@@ -1,0 +1,181 @@
+{% extends 'admin_layout.html' %}
+{% block 'main_content' %}
+{% if school.status == "new" %}
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card corona-gradient-card">
+      <div class="card-body py-0 px-0 px-sm-3">
+        <div class="row align-items-center">
+          <div class="col-4 col-sm-3 col-xl-2">
+            <img src="images/dashboard/Group126@2x.png" class="gradient-corona-img img-fluid" alt="">
+          </div>
+          <div class="col-5 col-sm-7 col-xl-8 p-0">
+            <h4 class="mb-1 mb-sm-0">{{school.name}}</h4>
+              <p class="mb-0 font-weight-normal d-none d-sm-block">Registration Date : {{school.registration_date}}</p>
+          </div>
+          <div class="col-3 col-sm-2 col-xl-2 pl-0 text-center">
+            <span>
+              <a href="{% url 'admin_school_activate' school.id %}" class="btn btn-outline-light btn-rounded get-started-btn">Activate</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if school.status != "new" %}
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card corona-gradient-card">
+      <div class="card-body py-0 px-0 px-sm-3">
+        <div class="row align-items-center">
+          <div class="col-4 col-sm-3 col-xl-2">
+            <img src="images/dashboard/Group126@2x.png" class="gradient-corona-img img-fluid" alt="">
+          </div>
+          <div class="col-5 col-sm-7 col-xl-8 p-0">
+            <span>
+              <a href="" class="btn btn-outline-light btn-rounded get-started-btn">Send Mail</a>
+            </span>
+
+            <span>
+              <a href="{% url 'admin_school_edit' school.id %}" style="width:80px;" class="btn btn-outline-light btn-rounded get-started-btn">Edit</a>
+            </span>
+
+            <span>
+              <a href="" class="btn btn-outline-light btn-rounded get-started-btn">Suspend</a>
+            </span>
+
+            <span>
+              <a href="" class="btn btn-outline-light btn-rounded get-started-btn btn-danger ">Delete</a>
+            </span>
+
+            <span>
+              <a href="" class="btn btn-outline-light btn-rounded get-started-btn">Back</a>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">SCHOOL INFORMATION</h4>
+        <form class="form-sample">
+          <p class="card-description"> SCHOOL INFORMATION </p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">School Name</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">{{school.name}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">School Email</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">{{school.email}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">School Type</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">
+                    {% if school.type == 'sec' %} SECONDARY SCHOOL  {% endif %}
+                    {% if school.type == 'pri' %} PRIMARY SCHOOL  {% endif %}
+                    {% if school.type == 'mix' %} PRI % SEC SCHOOL  {% endif %}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">School Address</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">{{school.address}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Line One</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">{{school.line_one}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Line Two</label>
+                <div class="col-sm-9">
+                  <p style="background:grey;padding:10px;">{{school.line_two}}</p>
+                </div>
+              </div>
+            </div>
+
+                      </div>
+                      <p class="card-description"> REGISTERER INFORMATION </p>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                              <p style="background:grey;padding:10px;">{{school.applicant_name}}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                              <p style="background:grey;padding:10px;">{{school.applicant_email}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Phone</label>
+                            <div class="col-sm-9">
+                              <p style="background:grey;padding:10px;">{{school.applicant_phone}}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Position</label>
+                            <div class="col-sm-9">
+                              <p style="background:grey;padding:10px;">
+                                {% if school.applicant_position == 'o' %} SCHOOL OWNER {% endif %}
+                                {% if school.applicant_position == 'd' %} SCHOOL DIRECTOR {% endif %}
+                                {% if school.applicant_position == 's' %} SCHOOL STAFF {% endif %}
+                                {% if school.applicant_position == 'ot' %} OTHERS {% endif %}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+              </div>
+    </div>
+{% endblock %}

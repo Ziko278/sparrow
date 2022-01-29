@@ -1,0 +1,386 @@
+{% extends 'website_layout.html' %}
+{% load static %}
+{% block extra_style %}
+      <!-- ======= EXTRA STYLE GOES IN HERE ======= -->
+  <link rel="stylesheet" href="{% static 'home/styles/extra.css' %}">
+{% endblock %}
+{% block main_content %}
+{% load static %}
+   <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background-image: url( {% static 'home/images/slide/slide-1.jpg' %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animate__animated animate__fadeInDown">Welcome to {% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %}</h2>
+                <p class="animate__animated animate__fadeInUp">{% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %} is a complete school management system that automates
+                  all school processes, it is comprehensive and easy to use, click <b>Register School</b> and we will handle the rest.
+                  .</p>
+                <a href="{% url 'school_register' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">Register Your School</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item" style="background-image: url( {% static 'home/images/slide/slide-2.jpg' %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animate__animated animate__fadeInDown">What {% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %} Does</h2>
+                <p class="animate__animated animate__fadeInUp">{% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %} handles all school processes, from registration,
+                  to results, to online classes, attendance, assignments, and a whole lot more. Click the link below
+                  to find out more.</p>
+                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item" style="background-image: url( {% static 'home/images/slide/slide-3.jpg' %});">
+            <div class="carousel-container">
+              <div class="carousel-content container">
+                <h2 class="animate__animated animate__fadeInDown">Our other Products</h2>
+                <p class="animate__animated animate__fadeInUp">We handle all types of school ICT software,
+                  and also business software. They include include E-library, Inventory System, CCTV, Online Exams.
+                  Click the link below to see the details in full.</p>
+                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">See Details</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon icofont-rounded-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon icofont-rounded-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="row no-gutters">
+          <div class="col-lg-6 video-box">
+            <img src="{% static 'home/images/about.jpg' %}" class="img-fluid" alt="">
+            {% if site_info.site_social_youtube_video_link %}<a href="https://www.youtube.com/{{site_info.site_social_youtube_video_link }}" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a> {% endif %}
+          </div>
+
+          <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
+
+            <div class="section-title">
+              <h2>About Us</h2>
+              <p>{% if site_info.site_name %} <span>{{ site_info.site_name|title }}</span> {% else %} <span>Sparrow</span> {% endif %} is a School Tech solution company that deals on all types of school software for easier management of school data. we are a subsection of our mother company <a target="_blank" href="http://www.core3dsolutions.com">core-3D-solutions</a>.</p>
+            </div>
+
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+              <h4 class="title"><a href="">SOFTWARE</a></h4>
+              <p class="description">We handle all types of school related software solutions, from websites to portal, to mobile and desktop applications.</p>
+            </div>
+
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="bx bx-gift"></i></div>
+              <h4 class="title"><a href="">HARDWARE</a></h4>
+              <p class="description">We handle all school related hardware purchase and installation, from computers, to smart phones, and security gadgets and lot more.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= About Lists Section ======= -->
+    <section class="about-lists">
+      <div class="container">
+         <div class="section-title">
+          <h2>WHY SPARROW</h2>
+        </div>
+        <div class="row no-gutters">
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up">
+            <span>01</span>
+            <h4>Awesome Features</h4>
+            <p class="text-justify">Aside the basics, we also offer cool features like online exams, attendance, auto recommendations, graphical statistics etc</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
+            <span>02</span>
+            <h4>Easy to use</h4>
+            <p class="text-justify">The software is easy to use, it also has a user bot that guides the user on the usage of every tool in the portal, making it very user friendly</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
+            <span>03</span>
+            <h4> Faster Processes</h4>
+            <p class="text-justify">Otherwise Tedious manual processes are easier to perform with the portal, therefore increasing productivity while reducing workload.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
+            <span>04</span>
+            <h4>Automatic Back up</h4>
+            <p class="text-justify">All School data are completely and automatically backed up severally, so there is 99% data safety. All data provided are also secured.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400">
+            <span>05</span>
+            <h4>24Hrs Server Uptime</h4>
+            <p class="text-justify">Use the portal anytime of the day, even in the midnight as we provide a 24 hours server lifetime.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="500">
+            <span>06</span>
+            <h4>24Hrs Customer Service</h4>
+            <p class="text-justify">Our receptive ICT team are always on standby at all time of the day to entertain any challenge you encounter, even if you need an upgrade.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End About Lists Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <section class="counts section-bg">
+      <div class="container">
+         <div class="section-title">
+          <h2>SERVICE SUMMARY</h2>
+        </div>
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up">
+            <div class="count-box">
+              <i class="icofont-document-folder" style="color: #c042ff;"></i>
+              <span data-toggle="counter-up">30</span>
+              <p>Schools</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="count-box">
+              <i class="icofont-simple-smile" style="color: #20b38e;"></i>
+              <span style="display:inline" data-toggle="counter-up">{{10000}}</span>
+              <p>Students</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="count-box">
+              <i class="icofont-live-support" style="color: #46d1ff;"></i>
+              <span data-toggle="counter-up">24</span>
+              <p>Hours Live Support</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="600">
+            <div class="count-box">
+              <i class="icofont-users-alt-5" style="color: #ffb459;"></i>
+              <span style="display:inline" data-toggle="counter-up">50</span> <i class="icofont-plus" style="display:inline;position:relative;top:-5px;font-size:30px;color:rgba(0,0,80,0.8)"></i>
+              <p>Staff</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Services</h2>
+        </div>
+
+        <div class="row">
+           <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon"><i class="icofont-settings"></i></div>
+            <h4 class="title"><a href="">Software Solutions</a></h4>
+            <p class="description">We design and develop all types of school management portals, websites, mobile and desktop applications.</p>
+          </div>
+          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+            <div class="icon"><i class="icofont-computer"></i></div>
+            <h4 class="title"><a href="">Hardware Supplier</a></h4>
+            <p class="description">We supplier all types of ICT and security gadgets for schools and similar institutions at affordable prices.</p>
+          </div>
+          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon"><i class="icofont-chart-bar-graph"></i></div>
+            <h4 class="title"><a href="">Data Analysis</a></h4>
+            <p class="description">We analyse and visualize data of different sizes and formats for schools and similar institutions.</p>
+          </div>
+          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+            <div class="icon"><i class="icofont-tasks-alt"></i></div>
+            <h4 class="title"><a href="">Tech Tutorials</a></h4>
+            <p class="description">We conduct ICT and computer programming tutorials on the trending computer languages in the world.</p>
+          </div>
+          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon"><i class="icofont-earth"></i></div>
+            <h4 class="title"><a href="">General ICT consultations</a></h4>
+            <p class="description">We provide ICT recommendations to schools on the optimum way to carry out any desired ICT procedure.</p>
+          </div>
+           <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon"><i class="icofont-image"></i></div>
+            <h4 class="title"><a href="">Tech Training</a></h4>
+            <p class="description">We train Students on ICT areas such as Computer and Phone Repairs, Solar and CCTV Installations. </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+
+
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="row  d-flex align-items-stretch">
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up">
+            <h4>What is Sparrow and what is it used for?</h4>
+            <p>
+              Sparrow is a comprehensive school management portal that enable schools automate school processes such as registration,
+              attendance, examination and results, payments, meetings, and many other stuffs, which increases the school productivity
+              and reduces the workload on the staff of the school.
+            </p>
+          </div>
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up" data-aos-delay="100">
+            <h4>What do i benefit from using sparrow?</h4>
+            <p>
+             There are numerous advantages of using sparrow school portals, some of which include automated and faster processes,
+              more Secured data storage, easy data retrieval, and data visualization, Accurate insights and Predictions about most
+              likely trend to occur and a whole lot more.
+            </p>
+          </div>
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up" data-aos-delay="200">
+            <h4>Is it expensive to afford Sparrow?</h4>
+            <p>
+              Sparrow is very affordable for schools, in fact you only pay for services you use. if later on you decide to add any extra
+              feature that is not in the category you subscribe for, you can easily migrate your plan and you don't have to pay the full fee
+              of the new plan, just a balance of the new fee.
+            </p>
+          </div>
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up" data-aos-delay="500">
+            <h4>Do i get assistance when i want to set up my School?</h4>
+            <p>
+              Absolutely! The system is easy to use and self explanatory, however there are still loads of support. we have a standby team for
+              just that purpose that you can call or mail at any time of the day. There is also built in bot to assist you on that regard. if requested,
+              we can do the full initialization for your school.
+            </p>
+          </div>
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up" data-aos-delay="400">
+            <h4>Is sparrow user friendly and easy to use?</h4>
+            <p>
+              Sparrow school portal is very user friendly and easy to you. you most likely would not require any form of external guidance to be able
+              to easily flow with the software. However, if that need arises, you will still be well guided by the tech team until you familiarize yourself
+              with the environment. The is also a manual for faster learning.
+            </p>
+          </div>
+
+          <div class="col-lg-6 faq-item" data-aos="fade-up" data-aos-delay="300">
+            <h4>Are my School Data safe with Sparrow?</h4>
+            <p>
+              Yes. All data sent to sparrow are saved in secured cloud databases. They are also automatically backed up to avoid any form of data loss,
+              also, sparrow would never check or use any data about your school without your permission. Any data you provide is exclusively for your
+              consumption only.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Contact Us</h2>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="info-box">
+              <i class="bx bx-map"></i>
+              <h3>Our Address</h3>
+              <p> {% if site_info.site_address %} <span>{{ site_info.site_address|title }}</span> {% else %} <span> Shop B1 denco plaza, phase ii , Jikwoyi, Abuja.</span> {% endif %} </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+            <div class="info-box">
+              <i class="bx bx-envelope"></i>
+              <h3>Email Us</h3>
+              <p>{% if site_info.site_info_email %} <span>{{ site_info.site_info_email }}</span> {% endif %} <br>
+                {% if site_info.site_support_email %} <span>{{ site_info.site_support_email }}</span> {% endif %}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="info-box ">
+              <i class="bx bx-phone-call"></i>
+              <h3>Call Us</h3>
+              <p>{% if site_info.site_line_one %} <span>{{ site_info.site_line_one }}</span> {% endif %}<br>
+                {% if site_info.site_line_two %} <span>{{ site_info.site_line_two }}</span> {% endif %}</p>
+            </div>
+          </div>
+
+          <div class="col-lg-12" data-aos="fade-up" data-aos-delay="300">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="form-row">
+                <div class="col-lg-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validate"></div>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validate"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                <div class="validate"></div>
+              </div>
+              <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Us Section -->
+{% endblock %}

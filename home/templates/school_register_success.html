@@ -1,0 +1,40 @@
+{% extends 'website_layout.html' %}
+{% load static %}
+{% block extra_style %}
+      <!-- ======= EXTRA STYLE GOES IN HERE ======= -->
+  <link rel="stylesheet" href="{% static 'home/styles/extra.css' %}">
+{% endblock %}
+{% block main_content %}
+{% load static %}
+<!-- ======= About Us Section ======= -->
+<section id="about" class="about">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-12 d-flex flex-column justify-content-center about-content">
+        <div class="section-title">
+          {% if messages %}
+          <div class="card corona-gradient-card">
+            <div class="card-body py-0 px-0 px-sm-3">
+              <div class="row align-items-center">
+                <div class="col-9 col-sm-10 col-xl-10 p-0">
+                  {% for message in messages %}
+                  <p style="padding:20px;" class="mb-1 mb-sm-0 text-{{message.tags}}"><b>{{message}}</b> </p>
+                  {% endfor %}
+                </div>
+                <div class="col-3 col-sm-2 col-xl-2 pl-0 text-center">
+                  <span>
+                    <a href="#"  class="btn btn-outline-light btn-rounded get-started-btn">X</a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="text-center"><a href="{% url 'website_homepage' %}" class="btn btn-success btn-rounded">RETURN HOME</a></div>
+      </div>
+
+    </div>
+  </div>
+</section><!-- End About Us Section -->
+{% endblock %}
