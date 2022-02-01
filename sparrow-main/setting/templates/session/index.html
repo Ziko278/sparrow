@@ -33,7 +33,7 @@
                             <td> {{ session.slash_format }} </td>
                             <td> {{ session.dash_format }} </td>
                             <th> {% if session.status == 'a' %} <span class="text-success">ACTIVE</span> {% elif session.status == 'p' %} <span class="text-danger">PAST</span> {% elif session.status == 'f' %} <span class="text-info">Next</span> {% endif %} </th>
-                            <td> <a class="btn btn-primary" href="{% url 's_admin:admin_session_detail' session.id %}">View</a> </td>
+                            <td> <a class="btn btn-primary" href="{% url 'admin_session_detail' session.id %}">View</a> </td>
                         </tr>
                     {% endfor %}
                     {% else %}

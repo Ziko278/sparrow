@@ -1,0 +1,33 @@
+{% extends 'school_admin_layout.html' %}
+{% block 'main_content' %}
+<div class="page-header">
+    <h3 class="page-title"> RESULT SETTINGS </h3>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'school_admin_dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'school_academic_setting_edit' results_setting.id %}">Edit Setting</a></li>
+        </ol>
+    </nav>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">ACTIONS:
+                <a href="{% url 'school_result_setting_edit' results_setting.id %}" class="btn btn-primary">EDIT SETTING</a>
+            </h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4"> Assignments:<i>{% if results_setting.assignments == True %} Yes {% else %} No{% endif %}</i></div>
+          <div class="col-md-4"> Number of tests :<i> {{ results_setting.tests }} </i></div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

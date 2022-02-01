@@ -31,6 +31,12 @@ class SchoolDashboard(TemplateView):
     template_name = 'school_dashboard.html'
 
 
+def random_int():
+    random_ref = randint(0, 9999999999)
+    uid = random_ref
+    return uid
+
+
 class SchoolCreateView(CreateView):
     model = SchoolsModel
     form_class = SchoolsForm
@@ -43,6 +49,15 @@ class SchoolListView(ListView):
     fields = '__all__'
     template_name = 'school/index.html'
     context_object_name = "school_list"
+
+    def get_context_data(self, **kwargs):
+        school=SchoolsModel.objects.all()
+        context = super().get_context_data(**kwargs)
+        try:
+            context['school_filter'] = SchoolFilter(self.request.GET, queryset=school)
+        except WebsiteInfoModel.DoesNotExist:
+            context['school_filter'] = None
+        return context
 
 
 class SchoolDetailView(DetailView):
@@ -77,8 +92,9 @@ def school_update_status(request, pk):
         # user.save()
         domain = get_current_site(request).domain
         uidb68 = urlsafe_base64_encode(force_bytes(school.pk))
-        link = reverse('activate', kwargs={'uidb64': uidb68, 'token': token_generator.make_token(school)})
+        link = reverse('s_admin:activate', kwargs={'uidb64': uidb68, 'token': token_generator.make_token(school)})
         activate_url = 'http://' + domain + link
+        print(activate_url)
         email_subject = "Activate your account"
         fro = settings.EMAIL_HOST_USER
         email_body = "Hi " + school.applicant_name + " please use this link to verify your account " + activate_url

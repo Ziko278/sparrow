@@ -30,3 +30,12 @@ class SchoolAdminAcademicSettingModel(models.Model):
     )
     term = models.CharField(max_length=10, choices=TERM)
     school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE)
+
+
+class SchoolAdminResultSettingModel(models.Model):
+    TEST_NO = (
+        ('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6')
+    )
+    tests = models.CharField(max_length=2, choices=TEST_NO)
+    assignments = models.BooleanField(default=True)
+    school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE)

@@ -68,10 +68,13 @@ def user_sign_in_view(request):
             return redirect(f'../../admin/{user_role.school.id}')
         else:
             messages.error(request, 'Invalid Credentials')
-            return redirect('../user/sign-in')
+            return redirect('user:login')
 
     return render(request, 'user/sign_in.html')
 
 
+def logoutUser(request):
+    logout(request)
+    return redirect('user:login')
 
 

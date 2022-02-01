@@ -1,6 +1,5 @@
 from django.urls import path
-from result.views import result_create_view, result_upload_view, result_check_view, result_index_view, \
-    result_class_list_view, result_student_detail_view, result_student_sheet_view
+from result.views import *
 
 
 urlpatterns = [

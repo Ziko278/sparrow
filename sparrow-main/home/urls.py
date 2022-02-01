@@ -1,11 +1,10 @@
 from django.urls import path
-from home.views import WebsiteHome, WebsiteAbout, WebsiteContact, WebsiteProduct, WebsiteService,\
-    SchoolsDashboard, SchoolsRegister, SchoolsRegisterSuccess
+from home.views import *
 
 urlpatterns = [
     path('', WebsiteHome.as_view(), name='website_homepage'),
     path('about', WebsiteAbout.as_view(), name='website_about_page'),
-    path('contact-us', WebsiteContact.as_view(), name='website_contact_us_page'),
+    path('contact-us', send_message, name='website_contact_us_page'),
     path('our-products', WebsiteProduct.as_view(), name='website_our_product_page'),
     path('our-services', WebsiteService.as_view(), name='website_our_service_page'),
 

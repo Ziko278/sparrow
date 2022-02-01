@@ -14,10 +14,20 @@
                             <th> Image  </th>
                             <th> Fullname </th>
                             <th class="text-center"> Registration No </th>
-                            <th> Assignment</th>
-                            <th> 1st CA </th>
-                            <th> 2nd CA </th>
-                            <th> 3rd CA </th>
+                            {% if result_setting.assignments %}
+                            <th> Assignment</th> {% else %} {% endif %}
+                            {% if tests >= 1 %}
+                            <th> 1st CA </th> {% else %} {% endif %}
+                            {% if tests >= 2 %}
+                            <th> 2nd CA </th> {% else %} {% endif %}
+                            {% if tests >= 3  %}
+                            <th> 3rd CA </th> {% else %} {% endif %}
+                            {% if tests >= 4  %}
+                            <th> 4th CA </th>{% else %} {% endif %}
+                            {% if tests >= 5  %}
+                            <th> 5th CA </th>{% else %} {% endif %}
+                            {% if tests >= 6  %}
+                            <th> 6th CA </th>{% else %} {% endif %}
                             <th> Exam  </th>
                             <th> Total  </th>
                             <th> Grade </th>
@@ -31,10 +41,26 @@
                             <td> <image src="/media/{{ value.student.image }}" /> </td>
                             <td> {{ value.student.surname|title }} {% if value.student.middle_name %} {{ value.student.middle_name|title }} {% endif %} {{ value.student.last_name|title }} </td>
                             <td> <p> {% if value.student.registration_number %} {{ value.student.registration_number }} {% endif %} </p></td>
+                            {% if result_setting.assignments %}
                             <td> <p> {% if value.result.assignment %} {{ value.result.assignment }} {% endif %} </p> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 1 %}
                             <td> <p> {% if value.result.first_test %} {{ value.result.first_test}} {% endif %} </p> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 2 %}
                             <td> <p> {% if value.result.second_test %} {{ value.result.second_test}} {% endif %}  </p> </td>
-                            <td> <p> {% if value.result.third_test %} {{ value.result.third_test}} {% endif %} </p> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 3 %}
+                            {% else %} {% endif %}
+                            {% if tests >= 4 %}
+                            <td> <p> {% if value.result.forth_test %} {{ value.result.forth_test}} {% endif %} </p> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 5 %}
+                            <td> <p> {% if value.result.fifth_test %} {{ value.result.fifth_test}} {% endif %}  </p> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 6 %}
+                            <td> <p> {% if value.result.sixth_test %} {{ value.result.sixth_test}} {% endif %} </p> </td>
+                            {% else %} {% endif %}
                             <td> <p> {% if value.result.exam %} {{ value.result.exam}} {% endif %}  </p></td>
                             <td> <p> {% if value.result.total %} {{ value.result.total}} {% endif %}  </p></td>
                             <td> <p> {% if value.result.grade %} {{ value.result.grade}} {% endif %} </p> </td>
