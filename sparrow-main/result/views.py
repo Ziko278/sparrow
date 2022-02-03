@@ -122,8 +122,8 @@ def result_upload_view(request):
             print('student is :', student.student_result)
             # student = StudentsModel.objects.get(pk=student_list[num].id)
 
-            student_complete_result = ResultModel.objects.filter(school=school, session=session, term=term,
-                                                                 student_class=student_class, student=student).first()
+            # student_complete_result = ResultModel(school=school, session=session, term=term,
+            #                                                      student_class=student_class, student=student)
 
             subject_pk = request.POST['subject']
             student_result = {
@@ -139,7 +139,10 @@ def result_upload_view(request):
                 'grade': grade,
                 'remark': remark
             }
+            student_complete_result = ResultModel.objects.filter(school=school, session=session, term=term,
+                                                  student_class=student_class, student=student, subject=subject).first()
             if student_complete_result:
+                print('old data update')
                 student_complete_result.result[subject_pk] = student_result
                 # if assignment_list and len(assignment_list) == len(student_list):
                 student_complete_result.assignment = assignment_list[num]
@@ -156,11 +159,24 @@ def result_upload_view(request):
                 student_complete_result.grade = grade
                 student_complete_result.remark = remark
             else:
+                print('New')
                 student_complete_result = {}
                 student_complete_result[subject_pk] = student_result
-                student_complete_result = ResultModel.objects.create(session=session, term=term, school=school,
-                                                                     student_class=student_class, student=student,
-                                                                     result=student_complete_result)
+                student_complete_result = ResultModel.objects.create(school=school, session=session, term=term,
+                                                      result = {subject_pk:student_result},
+                                                      assignment = assignment_list[num],
+                                                      first_test=first_tests[num],
+                                                      second_test=second_tests[num],
+                                                      third_test=third_tests[num],
+                                                      fourth_test=forth_tests[num],
+                                                      fifth_test=fifth_tests[num],
+                                                      sixth_test=sixth_tests[num],
+                                                      exam=exams[num],
+                                                      total=total_score,
+                                                      grade=grade,
+                                                      remark=remark,
+                                                      subject=subject,
+                                                      student_class=student_class, student=student)
             student_complete_result.save()
 
         highest_in_class = max(total_scores)
@@ -302,7 +318,7 @@ def result_index_view(request):
     #     }
 
     student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
-                                                student_class=student_class)
+                                                student_class=student_class, subject=subject)
     for v in student_result.all():
         print(v.second_test)
     print(student_result)
@@ -316,6 +332,7 @@ def result_index_view(request):
         'student_result': student_result,
         'tests': tests,
     }
+    # <button onclick='windows.print()'>Print this page<button> for printing a htmlpage
     return render(request, 'result/index.html', context=context)
 
 
@@ -460,9 +477,9 @@ def update_result(request, pk):
         else:
             grade, remark = '', ''
 
-        student_complete_result = ResultModel.objects.filter(school=school, session=session, term=term,
+        student_complete_result = ResultModel.objects.get(school=school, session=session, term=term,
                                                              student_class=student_class,
-                                                             student=student).first()
+                                                             student=student, subject=subject)
 
         subject_pk = request.POST['subject']
         student_result = {
@@ -504,7 +521,7 @@ def update_result(request, pk):
         student_complete_result.save()
 
     student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
-                                                student_class=student_class, student=student)
+                                                student_class=student_class, student=student, subject=subject)
     context = {
         'user_school': user_school,
         'class': student_class,
@@ -516,3 +533,49 @@ def update_result(request, pk):
         'tests': tests
     }
     return render(request, 'result/update_student_result.html', context=context)
+
+
+def single_student_result_view(request, pk):
+    """"""
+    school_pk = request.session['user_school_id']
+    user_school = SchoolsModel.objects.get(pk=school_pk)
+    academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+    result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+    tests = int(result_setting.tests)
+    student = StudentsModel.objects.get(pk=pk)
+    # result = ResultModel.objects.get(student=student)
+    form_class = SchoolAdminAcademicSettingModel.objects.all()
+    class_list = ClassesModel.objects.filter(school=user_school)
+    subject_list = SubjectsModel.objects.filter(school=user_school)
+
+    # print(form_class.session.dash_format)
+    if request.method == 'POST':
+        need_session = request.POST['session']
+        term = request.POST['term']
+        # subject = request.POST['subject']
+        request.session['need_session'] = need_session
+        request.session['term'] = term
+        results = ResultModel.objects.filter(student=student, session=need_session, term=term)
+        print(student,' : ',need_session,' :',term,' : ',results)
+        context = {
+            'user_school': user_school,
+            'class_list': class_list,
+            'subject_list': subject_list,
+            'form': form_class,
+            'student': student,
+            'results': results,
+            'tests': tests,
+            'term': term,
+            'session': need_session
+        }
+        return render(request, 'result/check_student_result.html', context=context)
+
+    context = {
+        'user_school': user_school,
+        'class_list': class_list,
+        'subject_list': subject_list,
+        'form': form_class,
+        'student': student,
+    }
+    return render(request, 'result/check_student_result_view.html', context=context)
+

@@ -1,6 +1,6 @@
 from django.db import models
 from registration.models import StudentsModel
-from basic.models import ClassesModel
+from basic.models import ClassesModel, SubjectsModel
 from sparrow_admin.models import SchoolsModel
 
 
@@ -21,15 +21,17 @@ class ResultModel(models.Model):
     # $table->string('uploadedBy');
     # $table->timestamps();
 
-    session = models.CharField(max_length=20)
+    session = models.CharField(max_length=20, null=True, blank=True)
     # change session to foreign key
     TERM = (
         ('1st term', '1st Term'), ('2nd term', '2ndTerm'), ('3rd term', '3rd Term')
     )
-    term = models.CharField(max_length=20, choices=TERM)
-    student_class = models.ForeignKey(ClassesModel, on_delete=models.CASCADE)
-    student = models.ForeignKey(StudentsModel, on_delete=models.CASCADE, related_name='student_result')
-    school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE)
+    term = models.CharField(max_length=20, choices=TERM, null=True, blank=True)
+    student_class = models.ForeignKey(ClassesModel, on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.ForeignKey(SubjectsModel, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(StudentsModel, on_delete=models.CASCADE, related_name='student_result',
+                                null=True, blank=True)
+    school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE, null=True, blank=True)
     result = models.JSONField(null=True, blank=True)
 
 
