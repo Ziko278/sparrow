@@ -199,9 +199,9 @@
                 <div class="col-sm-8">
                   <select class="form-control" name="class" required >
                     <option value="">-------------------</option>
-                    {% if class_list %}
-                      {% for class in class_list %}
-                        <option value="{{class.id}}">{{class}}</option>
+                    {% if form %}
+                      {% for class in form %}
+                        <option value="{{class.session.id}}">{{class.session.dash_format}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>

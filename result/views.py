@@ -5,16 +5,36 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from result.models import ResultModel, ResultStatisticModel
+from result.models import *
 from registration.models import StudentsModel, ClassesModel
 from result.forms import ResultForm
+from setting.forms import SchoolAdminAcademicSettingForm
 from sparrow_admin.models import SchoolsModel
 from basic.models import SubjectsModel
-from setting.models import SchoolAdminAcademicSettingModel
+from setting.models import SchoolAdminAcademicSettingModel, SchoolAdminResultSettingModel
 
 
 # Create your views here.
 def result_upload_view(request):
+
+    school_pk = request.session['user_school_id']
+    user_school = SchoolsModel.objects.get(pk=school_pk)
+    class_pk = request.session['result_class']
+    student_class = ClassesModel.objects.get(pk=class_pk)
+    subject_pk = request.session['result_subject']
+    subject = SubjectsModel.objects.get(pk=subject_pk)
+    student_list = StudentsModel.objects.filter(student_class=student_class)
+    academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+    result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+    tests = int(result_setting.tests)
+    session = academic_setting.session
+    term = academic_setting.term
+    full_list = {}
+    #
+    # for num in range(len(student_list)):
+    #     stud = student_list[num]
+    #     print(stud,' : ', stud.id)
+
     if request.method == 'POST':
         result = {}
         student_list = request.POST.getlist('students[]')
@@ -22,6 +42,9 @@ def result_upload_view(request):
         first_tests = request.POST.getlist('first_tests[]')
         second_tests = request.POST.getlist('second_tests[]')
         third_tests = request.POST.getlist('third_tests[]')
+        forth_tests = request.POST.getlist('forth_tests[]')
+        fifth_tests = request.POST.getlist('fifth_tests[]')
+        sixth_tests = request.POST.getlist('sixth_tests[]')
         exams = request.POST.getlist('exams[]')
 
         session = request.POST['session']
@@ -33,17 +56,47 @@ def result_upload_view(request):
 
         total_scores = []
         for num in range(len(student_list)):
+            student = StudentsModel.objects.get(pk=student_list[num])
             total_score = 0
-            if assignment_list[num]:
+            if assignment_list and len(assignment_list) == len(student_list):
                 total_score += float(assignment_list[num])
-            if first_tests[num]:
+            else:
+                assignment_list.append(0)
+                total_score += 0.00
+            if first_tests and len(first_tests) == len(student_list):
                 total_score += float(first_tests[num])
-            if second_tests[num]:
+            else:
+                first_tests.append(0)
+                total_score += 0.00
+            if second_tests and len(second_tests) == len(student_list):
                 total_score += float(second_tests[num])
-            if third_tests[num]:
+            else:
+                second_tests.append(0)
+                total_score += 0.00
+            if third_tests and len(third_tests) == len(student_list):
                 total_score += float(third_tests[num])
-            if exams[num]:
+            else:
+                third_tests.append(0)
+                total_score += 0.00
+            if forth_tests and len(forth_tests) == len(student_list):
+                total_score += float(first_tests[num])
+            else:
+                forth_tests.append(0)
+                total_score += 0.00
+            if fifth_tests and len(fifth_tests) == len(student_list):
+                total_score += float(second_tests[num])
+            else:
+                fifth_tests.append(0)
+                total_score += 0.00
+            if sixth_tests and len(sixth_tests) == len(student_list):
+                total_score += float(third_tests[num])
+            else:
+                sixth_tests.append(0)
+                total_score += 0.00
+            if exams:
                 total_score += float(exams[num])
+            else:
+                total_score += 0.00
             total_score = int(total_score)
 
             if total_score >= 70:
@@ -62,10 +115,15 @@ def result_upload_view(request):
                 grade, remark = '', ''
 
             total_scores.append(total_score)
-            student = StudentsModel.objects.get(pk=student_list[num])
+            # student = StudentsModel.objects.get(pk=student_list[num])
+            # student_id = student_list[num].id
+            # stud = student_list[num]
+            # print(stud, ' : ')
+            print('student is :', student.student_result)
+            # student = StudentsModel.objects.get(pk=student_list[num].id)
 
-            student_complete_result = ResultModel.objects.filter(school=school, session=session, term=term,
-                                                                 student_class=student_class, student=student).first()
+            # student_complete_result = ResultModel(school=school, session=session, term=term,
+            #                                                      student_class=student_class, student=student)
 
             subject_pk = request.POST['subject']
             student_result = {
@@ -73,19 +131,52 @@ def result_upload_view(request):
                 'first_test': first_tests[num],
                 'second_test': second_tests[num],
                 'third_test': third_tests[num],
+                'forth_test': forth_tests[num],
+                'fifth_test': fifth_tests[num],
+                'sixth_test': sixth_tests[num],
                 'exam': exams[num],
                 'total': total_score,
                 'grade': grade,
                 'remark': remark
             }
+            student_complete_result = ResultModel.objects.filter(school=school, session=session, term=term,
+                                                  student_class=student_class, student=student, subject=subject).first()
             if student_complete_result:
+                print('old data update')
                 student_complete_result.result[subject_pk] = student_result
+                # if assignment_list and len(assignment_list) == len(student_list):
+                student_complete_result.assignment = assignment_list[num]
+                # else:
+
+                student_complete_result.first_test = first_tests[num]
+                student_complete_result.second_test = second_tests[num]
+                student_complete_result.third_test = third_tests[num]
+                student_complete_result.forth_test = forth_tests[num]
+                student_complete_result.fifth_test = fifth_tests[num]
+                student_complete_result.sixth_test = sixth_tests[num]
+                student_complete_result.exam = exams[num]
+                student_complete_result.total = total_score
+                student_complete_result.grade = grade
+                student_complete_result.remark = remark
             else:
+                print('New')
                 student_complete_result = {}
                 student_complete_result[subject_pk] = student_result
-                student_complete_result = ResultModel.objects.create(session=session, term=term, school=school,
-                                                                     student_class=student_class, student=student,
-                                                                     result=student_complete_result)
+                student_complete_result = ResultModel.objects.create(school=school, session=session, term=term,
+                                                      result = {subject_pk:student_result},
+                                                      assignment = assignment_list[num],
+                                                      first_test=first_tests[num],
+                                                      second_test=second_tests[num],
+                                                      third_test=third_tests[num],
+                                                      fourth_test=forth_tests[num],
+                                                      fifth_test=fifth_tests[num],
+                                                      sixth_test=sixth_tests[num],
+                                                      exam=exams[num],
+                                                      total=total_score,
+                                                      grade=grade,
+                                                      remark=remark,
+                                                      subject=subject,
+                                                      student_class=student_class, student=student)
             student_complete_result.save()
 
         highest_in_class = max(total_scores)
@@ -119,17 +210,6 @@ def result_upload_view(request):
             return redirect(reverse('school_admin_result_index'))
         return redirect('../create')
 
-    school_pk = request.session['user_school_id']
-    user_school = SchoolsModel.objects.get(pk=school_pk)
-    class_pk = request.session['result_class']
-    student_class = ClassesModel.objects.get(pk=class_pk)
-    subject_pk = request.session['result_subject']
-    subject = SubjectsModel.objects.get(pk=subject_pk)
-    student_list = StudentsModel.objects.filter(student_class=student_class)
-    academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
-    session = academic_setting.session
-    term = academic_setting.term
-    full_list = {}
     for student in student_list:
         student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
                                                     student_class=student_class, student=student).first()
@@ -151,7 +231,9 @@ def result_upload_view(request):
         'class': student_class,
         'subject': subject,
         'full_list': full_list,
-        'academic_setting': academic_setting
+        'academic_setting': academic_setting,
+        'result_setting': result_setting,
+        'tests': tests
     }
     return render(request, 'result/upload.html', context=context)
 
@@ -189,6 +271,7 @@ def result_check_view(request):
         return redirect(reverse('school_admin_result_index'))
 
     school_pk = request.session['user_school_id']
+    form_class = SchoolAdminAcademicSettingModel.objects.all()
     user_school = SchoolsModel.objects.get(pk=school_pk)
     class_list = ClassesModel.objects.filter(school=user_school)
     subject_list = SubjectsModel.objects.filter(school=user_school)
@@ -196,7 +279,8 @@ def result_check_view(request):
     context = {
         'user_school': user_school,
         'class_list': class_list,
-        'subject_list': subject_list
+        'subject_list': subject_list,
+        'form': form_class,
     }
     return render(request, 'result/check.html', context=context)
 
@@ -206,6 +290,8 @@ def result_index_view(request):
     school_pk = request.session['user_school_id']
     user_school = SchoolsModel.objects.get(pk=school_pk)
     academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+    result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+    tests = int(result_setting.tests)
     session = academic_setting.session
     term = academic_setting.term
     class_pk = request.session['result_class']
@@ -214,28 +300,39 @@ def result_index_view(request):
     subject = SubjectsModel.objects.get(pk=subject_pk)
     student_list = StudentsModel.objects.filter(student_class=student_class)
     full_list = {}
-    for student in student_list:
-        student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
-                                                    student_class=student_class, student=student).first()
-        if student_result:
-            if student_result.result.get(subject_pk):
-                student_result = student_result.result[subject_pk]
-            else:
-                student_result = {}
-        else:
-            student_result = {}
+    # for student in student_list:
+    #     student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
+    #                                                 student_class=student_class, student=student).first()
+    #     # if student_result:
+    #     #     if student_result.result.get(subject_pk):
+    #     #         student_result = student_result.result[subject_pk]
+    #     #     else:
+    #     #         student_result = {}
+    #     # else:
+    #     #     student_result = {}
+    #     print('first test :',student_result.first_test)
+    #
+    #     full_list[student.id] = {
+    #         'student': student,
+    #         'result': student_result
+    #     }
 
-        full_list[student.id] = {
-            'student': student,
-            'result': student_result
-        }
-
+    student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
+                                                student_class=student_class, subject=subject)
+    for v in student_result.all():
+        print(v.second_test)
+    print(student_result)
+    print(full_list)
     context = {
         'user_school': user_school,
         'class': student_class,
         'subject': subject,
-        'full_list': full_list
+        'full_list': full_list,
+        'result_setting': result_setting,
+        'student_result': student_result,
+        'tests': tests,
     }
+    # <button onclick='windows.print()'>Print this page<button> for printing a htmlpage
     return render(request, 'result/index.html', context=context)
 
 
@@ -283,3 +380,202 @@ def result_student_sheet_view(request, pk):
         'result_list': result
     }
     return render(request, 'result/templates/result_template_one.html', context=context)
+
+
+def update_result(request, pk):
+    school_pk = request.session['user_school_id']
+    user_school = SchoolsModel.objects.get(id=school_pk)
+    class_pk = request.session['result_class']
+    student_class = ClassesModel.objects.get(id=class_pk)
+    subject_pk = request.session['result_subject']
+    subject = SubjectsModel.objects.get(id=subject_pk)
+    # student_list = StudentsModel.objects.filter(student_class=student_class)
+    academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+    result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+    tests = int(result_setting.tests)
+    session = academic_setting.session
+    term = academic_setting.term
+    full_list = {}
+    rez = ResultModel.objects.get(pk=pk)
+    student = rez.student
+    print(student)
+
+    if request.method == 'POST':
+        result = {}
+        assignment_list = request.POST.get('assignments[]')
+        first_tests = request.POST.get('first_tests[]')
+        second_tests = request.POST.get('second_tests[]')
+        third_tests = request.POST.get('third_tests[]')
+        forth_tests = request.POST.get('forth_tests[]')
+        fifth_tests = request.POST.get('fifth_tests[]')
+        sixth_tests = request.POST.get('sixth_tests[]')
+        exams = request.POST.get('exams[]')
+
+        session = request.POST['session']
+        term = request.POST['term']
+        school_id = request.POST['school']
+        school = SchoolsModel.objects.get(pk=school_id)
+        class_pk = request.POST['student_class']
+        student_class = ClassesModel.objects.get(pk=class_pk)
+
+        # total_scores = []
+        total_score = 0
+        if assignment_list:
+            total_score += float(assignment_list)
+        else:
+            assignment_list = 0.00
+            total_score += 0.00
+        if first_tests:
+            total_score += float(first_tests)
+        else:
+            first_tests = 0.00
+            total_score += 0.00
+        if second_tests:
+            total_score += float(second_tests)
+        else:
+            second_tests = 0.00
+            total_score += 0.00
+        if third_tests:
+            total_score += float(third_tests)
+        else:
+            third_tests = 0.00
+            total_score += 0.00
+        if forth_tests:
+            total_score += float(first_tests)
+        else:
+            forth_tests = 0.00
+            total_score += 0.00
+        if fifth_tests:
+            total_score += float(second_tests)
+        else:
+            fifth_tests = 0.00
+            total_score += 0.00
+        if sixth_tests:
+            total_score += float(third_tests)
+        else:
+            sixth_tests = 0.00
+            total_score += 0.00
+        if exams:
+            total_score += float(exams)
+        else:
+            exams = 0.00
+            total_score += 0.00
+        total_score = int(total_score)
+
+        if total_score >= 70:
+            grade, remark = 'A', 'EXCELLENT'
+        elif (total_score >= 60) and total_score < 70:
+            grade, remark = 'B', 'VERY GOOD'
+        elif (total_score >= 50) and total_score < 60:
+            grade, remark = 'C', 'GOOD'
+        elif (total_score >= 45) and total_score < 50:
+            grade, remark = 'D', 'FAIR'
+        elif (total_score >= 40) and total_score < 45:
+            grade, remark = 'E', 'POOR'
+        elif total_score < 40:
+            grade, remark = 'F', 'FAIL'
+        else:
+            grade, remark = '', ''
+
+        student_complete_result = ResultModel.objects.get(school=school, session=session, term=term,
+                                                             student_class=student_class,
+                                                             student=student, subject=subject)
+
+        subject_pk = request.POST['subject']
+        student_result = {
+            'assignment': assignment_list,
+            'first_test': first_tests,
+            'second_test': second_tests,
+            'third_test': third_tests,
+            'forth_test': forth_tests,
+            'fifth_test': fifth_tests,
+            'sixth_test': sixth_tests,
+            'exam': exams,
+            'total': total_score,
+            'grade': grade,
+            'remark': remark
+        }
+        if student_complete_result:
+            student_complete_result.result[subject_pk] = student_result
+            # if assignment_list and len(assignment_list) == len(student_list):
+            student_complete_result.assignment = assignment_list
+            # else:
+
+            student_complete_result.first_test = first_tests
+            student_complete_result.second_test = second_tests
+            student_complete_result.third_test = third_tests
+            student_complete_result.forth_test = forth_tests
+            student_complete_result.fifth_test = fifth_tests
+            student_complete_result.sixth_test = sixth_tests
+            student_complete_result.exam = exams
+            student_complete_result.total = total_score
+            student_complete_result.grade = grade
+            student_complete_result.remark = remark
+        else:
+            student_complete_result = {}
+            student_complete_result[subject_pk] = student_result
+            student_complete_result = ResultModel.objects.create(session=session, term=term, school=school,
+                                                                 student_class=student_class,
+                                                                 student=student,
+                                                                 result=student_complete_result)
+        student_complete_result.save()
+
+    student_result = ResultModel.objects.filter(school=user_school, session=session, term=term,
+                                                student_class=student_class, student=student, subject=subject)
+    context = {
+        'user_school': user_school,
+        'class': student_class,
+        'subject': subject,
+        'full_list': full_list,
+        'academic_setting': academic_setting,
+        'result_setting': result_setting,
+        'student_result': student_result,
+        'tests': tests
+    }
+    return render(request, 'result/update_student_result.html', context=context)
+
+
+def single_student_result_view(request, pk):
+    """"""
+    school_pk = request.session['user_school_id']
+    user_school = SchoolsModel.objects.get(pk=school_pk)
+    academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+    result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+    tests = int(result_setting.tests)
+    student = StudentsModel.objects.get(pk=pk)
+    # result = ResultModel.objects.get(student=student)
+    form_class = SchoolAdminAcademicSettingModel.objects.all()
+    class_list = ClassesModel.objects.filter(school=user_school)
+    subject_list = SubjectsModel.objects.filter(school=user_school)
+
+    # print(form_class.session.dash_format)
+    if request.method == 'POST':
+        need_session = request.POST['session']
+        term = request.POST['term']
+        # subject = request.POST['subject']
+        request.session['need_session'] = need_session
+        request.session['term'] = term
+        results = ResultModel.objects.filter(student=student, session=need_session, term=term)
+        print(student,' : ',need_session,' :',term,' : ',results)
+        context = {
+            'user_school': user_school,
+            'class_list': class_list,
+            'subject_list': subject_list,
+            'form': form_class,
+            'student': student,
+            'results': results,
+            'tests': tests,
+            'term': term,
+            'session': need_session
+        }
+        return render(request, 'result/check_student_result.html', context=context)
+
+    context = {
+        'user_school': user_school,
+        'class_list': class_list,
+        'subject_list': subject_list,
+        'form': form_class,
+        'student': student,
+    }
+    return render(request, 'result/check_student_result_view.html', context=context)
+

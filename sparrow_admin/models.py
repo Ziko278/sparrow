@@ -1,4 +1,5 @@
 from django.db import models
+# from setting.models import SchoolAdminResultSettingModel
 """This is the models for all school data management"""
 
 
@@ -28,6 +29,8 @@ class SchoolsModel(models.Model):
     status = models.CharField(max_length=15, default="new", blank=True)
     registration_date = models.DateTimeField(auto_now_add=True)
     activation_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    # result_setting = models.OneToOneField(SchoolAdminResultSettingModel, on_delete=models.CASCADE,
+    #                             related_name="result_setting", blank=True)
 
     def __str__(self):
         return self.name

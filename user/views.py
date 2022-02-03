@@ -4,11 +4,11 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.generic.detail import DetailView
 from sparrow_admin.models import SchoolsModel
-from user.models import UserRoleModel
+from .models import UserRoleModel
 
 
 # Create your views here.
@@ -68,7 +68,7 @@ def user_sign_in_view(request):
             return redirect(f'../../admin/{user_role.school.id}')
         else:
             messages.error(request, 'Invalid Credentials')
-            return redirect('user:login')
+            return redirect('../user/sign-in')
 
     return render(request, 'user/sign_in.html')
 
@@ -76,5 +76,6 @@ def user_sign_in_view(request):
 def logoutUser(request):
     logout(request)
     return redirect('user:login')
+
 
 

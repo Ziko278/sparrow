@@ -22,10 +22,20 @@
                             <th> Image  </th>
                             <th> Fullname </th>
                             <th class="text-center"> Registration No </th>
-                            <th> Assignment</th>
-                            <th> 1st CA </th>
-                            <th> 2nd CA </th>
-                            <th> 3rd CA </th>
+                            {% if result_setting.assignments %}
+                            <th> Assignment</th> {% else %} {% endif %}
+                            {% if tests >= 1 %}
+                            <th> 1st CA </th> {% else %} {% endif %}
+                            {% if tests >= 2 %}
+                            <th> 2nd CA </th> {% else %} {% endif %}
+                            {% if tests >= 3  %}
+                            <th> 3rd CA </th> {% else %} {% endif %}
+                            {% if tests >= 4  %}
+                            <th> 4th CA </th>{% else %} {% endif %}
+                            {% if tests >= 5  %}
+                            <th> 5th CA </th>{% else %} {% endif %}
+                            {% if tests >= 6  %}
+                            <th> 6th CA </th>{% else %} {% endif %}
                             <th> Exam  </th>
                         </tr>
                     </thead>
@@ -36,10 +46,27 @@
                             <td> <image src="/media/{{ value.student.image }}" /> </td>
                             <td> {{ value.student.surname|title }} {% if value.student.middle_name %} {{ value.student.middle_name|title }} {% endif %} {{ value.student.last_name|title }} </td>
                             <td class="text-center"> {% if value.student.registration_number %} {{ value.student.registration_number }} {% endif %} </td>
+                            {% if result_setting.assignments %}
                             <td> <input type="number" {% if value.result.assignment %} value="{{ value.result.assignment }}" {% endif %} step=".01" name="assignments[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 1 %}
                             <td> <input type="number" {% if value.result.first_test %} value="{{ value.result.first_test}}" {% endif %} step=".01" name="first_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 2 %}
                             <td> <input type="number" {% if value.result.second_test %} value="{{ value.result.second_test}}" {% endif %}  step=".01" name="second_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 3 %}
                             <td> <input type="number" {% if value.result.third_test %} value="{{ value.result.third_test}}" {% endif %}  step=".01" name="third_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 4 %}
+                            <td> <input type="number" {% if value.result.forth_test %} value="{{ value.result.forth_test}}" {% endif %}  step=".01" name="third_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 5 %}
+                            <td> <input type="number" {% if value.result.fifth_test %} value="{{ value.result.fifth_test}}" {% endif %}  step=".01" name="third_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
+                            {% if tests >= 6 %}
+                            <td> <input type="number" {% if value.result.sixth_test %} value="{{ value.result.sixth_test}}" {% endif %}  step=".01" name="third_tests[]" class="form-control"> </td>
+                            {% else %} {% endif %}
                             <td> <input type="number" {% if value.result.exam %} value="{{ value.result.exam}}" {% endif %}  step=".01" name="exams[]" class="form-control"> </td>
                         </tr>
 

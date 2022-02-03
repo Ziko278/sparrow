@@ -1,5 +1,5 @@
-from django.forms import ModelForm, Select, TextInput
-from setting.models import SessionModel, SchoolAdminAcademicSettingModel
+from django.forms import ModelForm, Select, TextInput, CheckboxInput
+from setting.models import *
 from sparrow_admin.models import SchoolsModel
 
 
@@ -40,4 +40,27 @@ class SchoolAdminAcademicSettingForm(ModelForm):
             'school': TextInput(attrs={
                 'class': 'form-control',
             }),
+        }
+
+
+class SchoolAdminResultSettingForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+
+    class Meta:
+        model = SchoolAdminResultSettingModel
+        fields = '__all__'
+        exclude = []
+        widgets = {
+            'school': TextInput(attrs={
+                'class': 'form-control',
+            }),
+            # 'assignments': CheckboxInput(attrs={
+            #     'class': 'form-control',
+            # }),
         }

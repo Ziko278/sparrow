@@ -5,8 +5,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from setting.models import SessionModel, SchoolAdminAcademicSettingModel
-from setting.forms import SessionForm, SchoolAdminAcademicSettingForm
+from setting.models import *
+from setting.forms import *
 from sparrow_admin.models import SchoolsModel
 
 
@@ -22,9 +22,12 @@ class SchoolSettingView(TemplateView):
         context = super().get_context_data(**kwargs)
         school_pk = self.request.session['user_school_id']
         user_school = SchoolsModel.objects.get(pk=school_pk)
-        academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
+        academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[:1]
+        result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[:1]
+        # print('academic_setting :', academic_setting.id)
         context['user_school'] = user_school
         context['academic_setting'] = academic_setting
+        context['result_setting'] = result_setting
         return context
 
 
@@ -115,4 +118,52 @@ class SchoolAcademicSettingDetailView(TemplateView):
         academic_setting = SchoolAdminAcademicSettingModel.objects.filter(school=user_school)[0]
         context['user_school'] = user_school
         context['academic_setting'] = academic_setting
+        return context
+
+
+class SchoolResultSettingCreateView(CreateView):
+    model = SchoolAdminResultSettingModel
+    form_class = SchoolAdminResultSettingForm
+    template_name = 'setting/result_setting/create.html'
+    success_message = 'Result Setting Saved Successfully'
+
+    def get_success_url(self):
+        return reverse('school_result_setting_detail', kwargs={'pk': self.request.session['user_school_id']})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        school_pk = self.request.session['user_school_id']
+        user_school = SchoolsModel.objects.get(pk=school_pk)
+        context['user_school'] = user_school
+        return context
+
+
+class SchoolResultSettingUpdateView(UpdateView):
+    model = SchoolAdminResultSettingModel
+    form_class = SchoolAdminResultSettingForm
+    template_name = 'setting/result_setting/create.html'
+    success_message = 'Result Setting Saved Successfully'
+
+    def get_success_url(self):
+        return reverse('school_result_setting_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        school_pk = self.request.session['user_school_id']
+        user_school = SchoolsModel.objects.get(pk=school_pk)
+        context['user_school'] = user_school
+        return context
+
+
+class SchoolResultSettingDetailView(TemplateView):
+    template_name = 'setting/result_setting/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        school_pk = self.request.session['user_school_id']
+        user_school = SchoolsModel.objects.get(pk=school_pk)
+        result_setting = SchoolAdminResultSettingModel.objects.filter(school=user_school)[0]
+        print(result_setting.tests)
+        context['user_school'] = user_school
+        context['results_setting'] = result_setting
         return context
