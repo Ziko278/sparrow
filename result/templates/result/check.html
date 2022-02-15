@@ -110,11 +110,11 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Select a Section</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="class" required >
+                  <select class="form-control" name="session" required >
                     <option value="">-------------------</option>
-                    {% if class_list %}
-                      {% for class in class_list %}
-                        <option value="{{class.id}}">{{class}}</option>
+                    {% if form %}
+                      {% for class in form %}
+                        <option value="{{class.session}}">{{class.session.dash_format}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>
@@ -125,11 +125,11 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Select a Term</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="subject" required>
+                  <select class="form-control" name="term" required>
                     <option value="">-------------------</option>
-                    {% if subject_list %}
-                      {% for subject in subject_list %}
-                        <option value="{{subject.id}}">{{subject}}</option>
+                    {% if form %}
+                      {% for subject in form %}
+                        <option value="{{subject.term}}">{{subject.term}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>
@@ -197,11 +197,11 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Select a Section</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="class" required >
+                  <select class="form-control" name="session" required >
                     <option value="">-------------------</option>
                     {% if form %}
                       {% for class in form %}
-                        <option value="{{class.session.id}}">{{class.session.dash_format}}</option>
+                        <option value="{{class.session.slash_format}}">{{class.session.dash_format}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>
@@ -212,11 +212,11 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Select a Term</label>
                 <div class="col-sm-8">
-                  <select class="form-control" name="subject" required>
+                  <select class="form-control" name="term" required>
                     <option value="">-------------------</option>
-                    {% if subject_list %}
-                      {% for subject in subject_list %}
-                        <option value="{{subject.id}}">{{subject}}</option>
+                    {% if form %}
+                      {% for subject in form %}
+                        <option value="{{subject.term}}">{{subject.term}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>

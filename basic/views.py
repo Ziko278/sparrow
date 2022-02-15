@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -114,7 +115,7 @@ class SubjectStatisticsView(TemplateView):
     template_name = 'subject/statistic.html'
 
 
-class ClassCreateView(CreateView):
+class ClassCreateView(CreateView, LoginRequiredMixin):
     model = ClassesModel
     form_class = ClassesForm
     template_name = 'class/create.html'
@@ -142,7 +143,7 @@ class ClassListView(ListView):
         return ClassesModel.objects.filter(school=user_school)
 
 
-class ClassDetailView(DetailView):
+class ClassDetailView(LoginRequiredMixin, DetailView):
     model = ClassesModel
     fields = '__all__'
     template_name = 'class/detail.html'

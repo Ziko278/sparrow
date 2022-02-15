@@ -18,6 +18,13 @@
                 <a href="{% url 'school_admin_class_assign_teacher' class.id %}" class="btn btn-info">ASSIGN TEACHER</a>
                 <a href="{% url 'school_admin_class_assign_subjects' class.id %}" class="btn btn-warning">ASSIGN SUBJECTS</a>
                 <a href="{% url 'school_admin_class_delete' class.id %}" class="btn btn-danger">DELETE CLASS</a>
+                {% if class.publish_result %}
+                <a href="" class="btn btn-secondary disabled">RESULT ALREADY PUBLISHED</a>
+                <a href="{% url 'school_admin_class_result' class.id %}" class="btn btn-info">VIEW CLASS RESULT</a>
+                {% else %}
+                <a href="{% url 'school_admin_publish_result' class.id %}" class="btn btn-secondary">PUBLISH RESULT</a>
+                {% endif %}
+
             </h4>
         </div>
     </div>

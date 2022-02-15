@@ -113,6 +113,7 @@ class ClassesModel(models.Model):
     form_teacher = models.ForeignKey(StaffModel, null=True, blank=True, on_delete=models.SET_NULL)
     assistant_form_teacher = models.ForeignKey(StaffModel, related_name='assistant_form_teacher', null=True, blank=True, on_delete=models.SET_NULL)
     school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE)
+    publish_result = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -151,11 +152,12 @@ class StudentsModel(models.Model):
     state_of_origin = models.CharField(max_length=50, choices=STATE_OF_ORIGIN, blank=True, null=True)
     lga = models.CharField(max_length=50, choices=LGA, blank=True, null=True)
     registration_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    student_class = models.ForeignKey(ClassesModel, null=True, on_delete=models.CASCADE)
+    student_class = models.ForeignKey(ClassesModel, null=True, on_delete=models.CASCADE, related_name='class_student')
     status = models.CharField(max_length=15, blank=True, default='active')
     previous_classes = models.JSONField(null=True, blank=True)
     parent = models.ForeignKey(ParentsModel, on_delete=models.CASCADE)
     school = models.ForeignKey(SchoolsModel, on_delete=models.CASCADE)
+    # results = models.ForeignKey(TermResult, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         if self.middle_name:

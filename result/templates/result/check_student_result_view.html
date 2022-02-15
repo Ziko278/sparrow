@@ -1,4 +1,4 @@
-{% extends 'admin_layout.html' %}
+{% extends 'school_admin_layout.html' %}
 {% block 'main_content' %}
 
 <form method="POST" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
                     <option value="">-------------------</option>
                     {% if form %}
                       {% for class in form %}
-                        <option value="{{class.session.slash_format}}">{{class.session.dash_format}}</option>
+                        <option value="{{class}}">{{class.dash_format}}</option>
                       {% endfor %}
                     {% endif %}
                   </select>
@@ -30,13 +30,12 @@
                 <label class="col-sm-3 col-form-label">Term</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="term" required>
-                      <option value="">-------------------</option>
-                      {% if form %}
-                        {% for subject in form %}
-                          <option value="{{subject.term}}">{{subject.term}}</option>
-                        {% endfor %}
-                      {% endif %}
-                    </select>
+                    <option value="">-------------------</option>
+                      <option value="1st TERM">1st TERM</option>
+                      <option value="2nd TERM">2nd TERM</option>
+                      <option value="3rd TERM">3rd TERM</option>
+
+                  </select>
                 </div>
               </div>
             </div>

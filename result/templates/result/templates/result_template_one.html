@@ -36,68 +36,116 @@
                         <h6 class="h6 text-center"><span>Email: support@sparrowmodelshool.com Contact: 0816 355 0192</span></h6>
                     </div>
                 </div>
-                <div class="row" style="background:white;color:black;border-top:5px solid blue;padding:10px;">
-                    <div class="row col-md-12">
-                        <div class="col-md-2">
-                            <img src="/media/{{ student.image }}" class="img-fluid" alt="">
+                {% if published %}
+                    {% if result %}
+                    <div class="row" style="background:white;color:black;border-top:5px solid blue;padding:10px;">
+                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <img src="/media/{{ student.image }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-md-5" >
+                                <p>Name: <b>{{ student.surname|title }} {% if student.middle_name %} {{ student.middle_name|title }} {% endif %} {{ student.last_name|title }}</b></p>
+                                <p>Reg No: <b>{{ student.registration_number }}</b></p>
+                                <p>Parent: <b>{{ student.parent.title|title }} {{ student.parent.surname|title }} {% if student.parent.middle_name %} {{ student.parent.middle_name|title }} {% endif %} {{ student.parent.last_name|title }}</b></p>
+                                <p>Class: <b>{{ student.student_class }}</b></p>
+                            </div>
+                            <div class="col-md-5" >
+                                <p>Gender: <b>Female</b></p>
+                                <p>Session: <b>2021/2022</b></p>
+                                <p>Term: <b>1st Term</b></p>
+                                <p>Teacher: <b>{{ student.student_class.form_teacher }}</b></p>
+                            </div>
                         </div>
-                        <div class="col-md-5" >
-                            <p>Name: <b>{{ student.surname|title }} {% if student.middle_name %} {{ student.middle_name|title }} {% endif %} {{ student.last_name|title }}</b></p>
-                            <p>Reg No: <b>{{ student.registration_number }}</b></p>
-                            <p>Parent: <b>{{ student.parent.title|title }} {{ student.parent.surname|title }} {% if student.parent.middle_name %} {{ student.parent.middle_name|title }} {% endif %} {{ student.parent.last_name|title }}</b></p>
-                            <p>Class: <b>{{ student.student_class }}</b></p>
-                        </div>
-                        <div class="col-md-5" >
-                            <p>Gender: <b>Female</b></p>
-                            <p>Session: <b>2021/2022</b></p>
-                            <p>Term: <b>1st Term</b></p>
-                            <p>Teacher: <b>{{ student.student_class.form_teacher }}</b></p>
+                        <div class="col-md-12">
+                            <h3 class="text-center">PROGRESS REPORT OF 1ST TERM EXAM</h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th> S/N </th>
+                                            <th> Subject </th>
+                                            {% if result_setting.assignments %}
+                                            <th> Assignment</th> {% else %} {% endif %}
+                                            {% if tests >= 1 %}
+                                            <th> 1st CA </th> {% else %} {% endif %}
+                                            {% if tests >= 2 %}
+                                            <th> 2nd CA </th> {% else %} {% endif %}
+                                            {% if tests >= 3  %}
+                                            <th> 3rd CA </th> {% else %} {% endif %}
+                                            {% if tests >= 4  %}
+                                            <th> 4th CA </th>{% else %} {% endif %}
+                                            {% if tests >= 5  %}
+                                            <th> 5th CA </th>{% else %} {% endif %}
+                                            {% if tests >= 6  %}
+                                            <th> 6th CA </th>{% else %} {% endif %}
+                                            <th> Exam  </th>
+                                            <th> Total  </th>
+                                            <th> Grade </th>
+                                            <th> Remark  </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for value in result_list %}
+                                        <tr>
+                                            <td> {{ forloop.counter }} </td>
+                                            <td> <p> {% if value.subject %} {{ value.subject }} {% endif %} </p></td>
+                                            {% if result_setting.assignments %}
+                                            <td> <p> {% if value.assignment %} {{ value.assignment }} {% endif %} </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 1 %}
+                                            <td> <p> {% if value.first_test %} {{ value.first_test}} {% endif %} </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 2 %}
+                                            <td> <p> {% if value.second_test %} {{ value.second_test}} {% endif %}  </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 3 %}
+                                            <td> <p> {% if value.third_test %} {{ value.third_test}} {% endif %} </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 4 %}
+                                            <td> <p> {% if value.forth_test %} {{ value.forth_test}} {% endif %} </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 5 %}
+                                            <td> <p> {% if value.fifth_test %} {{ value.fifth_test}} {% endif %}  </p> </td>
+                                            {% else %} {% endif %}
+                                            {% if tests >= 6 %}
+                                            <td> <p> {% if value.sixth_test %} {{ value.sixth_test}} {% endif %} </p> </td>
+                                            {% else %} {% endif %}
+                                            <td>  {% if value.exam %} {{ value.exam}} {% endif %}  </td>
+                                            <td>  {% if value.total %} {{ value.total}} {% endif %}  </td>
+                                             <td> {% if value.grade %} {{ value.grade}} {% endif %}  </td>
+                                            <td>  {% if value.remark %} {{ value.remark}} {% endif %} </td>
+                                        </tr>
+                                    {% endfor %}
+                                        <tr>
+                                            <td colspan="2"> <b>CLASS POSITION <i style="color: green; font-weight: 600;">{{position}}</i></b> </td>
+                                            <td> <b>TOTAL</b> </td>
+                                            <td> <b>{{total}}</b> </td>
+                                            <td> <b>AVERAGE</b> </td>
+                                            <td> <b>{{average}}</b> </td>
+    <!--                                        <td> <p> {% if value.second_test %} {{ value.second_test}} {% endif %}  </p> </td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <h3 class="text-center">PROGRESS REPORT OF 1ST TERM EXAM</h3>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th> S/N </th>
-                                        <th> Subject </th>
-                                        <th> Assignment</th>
-                                        <th> 1st CA </th>
-                                        <th> 2nd CA </th>
-                                        <th> 3rd CA </th>
-                                        <th> Exam  </th>
-                                        <th> Total  </th>
-                                        <th> Grade </th>
-                                        <th> Remark  </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {% for key, value in result_list.result.items %}
-                                    <tr>
-                                        <td> {{ forloop.counter }} </td>
-                                        <td> Mathematics </td>
-                                        <td>  {% if value.assignment %} {{ value.assignment }} {% endif %}  </td>
-                                        <td>  {% if value.first_test %} {{ value.first_test}} {% endif %}  </td>
-                                        <td>  {% if value.second_test %} {{ value.second_test}} {% endif %}   </td>
-                                        <td>  {% if value.third_test %} {{ value.third_test}} {% endif %}  </td>
-                                        <td>  {% if value.exam %} {{ value.exam}} {% endif %}  </td>
-                                        <td>  {% if value.total %} {{ value.total}} {% endif %}  </td>
-                                         <td> {% if value.grade %} {{ value.grade}} {% endif %}  </td>
-                                        <td>  {% if value.remark %} {{ value.remark}} {% endif %} </td>
-                                    </tr>
-                                {% endfor %}
-                                    <tr>
-                                        <td colspan="2"> <b>PER (%) 80.5</b> </td>
-                                        <td> <b>TOTAL</b> </td>
-                                        <td> <b>{% with number_of_result=result_list.result|length %} {{ 500 }} {% endwith %}</b> </td>
-                                        <td> <p> {% if value.second_test %} {{ value.second_test}} {% endif %}  </p> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {% else %}
+                        <br /><br />
+                        <h3 class="text-center">THERE IS CURRENTLY NO RESULT FOR THIS STUDENT</h3>
+                      {% endif %}
+                {% else %}
+                    <br /><br />
+                    <h3 class="text-center">THERE IS CURRENTLY NO RESULT PUBLISHED FOR THIS STUDENT</h3>
+                  {% endif %}
+                <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <div class="col-sm-12" style="float:right">
+                  <button style="width:150px;margin:10px" class="btn btn-primary btn-rounded" onclick="window.print()">Print</button>
                 </div>
+              </div>
+            </div>
+          </div>
             </div>
         </div>
     </div>
